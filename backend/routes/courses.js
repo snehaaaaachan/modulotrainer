@@ -1,10 +1,29 @@
-const express = require("express");
-const path = require("path");
-const fs = require("fs");
-const router = express.Router();
+const express  = require("express");
+const path     = require("path");
+const fs       = require("fs");
+const multer   = require("multer");
+const router   = express.Router();
 const { Course, Module } = require("../models");
 
 const MATERIALS_DIR = path.join(__dirname, "..", "materials");
+
+// ── Multer — store uploaded PDFs in materials/ ────────────────────────────────
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, MATERIALS_DIR),
+  filename: (req, file, cb) => {
+    // e.g. webdev-2.pdf  — deterministic so re-uploading replaces the old file
+    const name = `${req.params.slug}-${req.params.index}.pdf`;
+    cb(null, name);
+  }
+});
+const upload = multer({
+  storage,
+  limits: { fileSize: 20 * 1024 * 1024 }, // 20 MB max
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype === "application/pdf") cb(null, true);
+    else cb(new Error("Only PDF files are allowed"));
+  }
+});
 
 // ── Middleware ────────────────────────────────────────────────────────────────
 function requireAdmin(req, res, next) {
@@ -63,7 +82,7 @@ router.get("/:slug", async (req, res) => {
   }
 });
 
-// GET /api/courses/:slug/modules/:index/pdf
+// GET /api/courses/:slug/modules/:index/pdf — stream PDF inline
 router.get("/:slug/modules/:index/pdf", async (req, res) => {
   try {
     const course = await Course.findOne({ where: { slug: req.params.slug } });
@@ -90,7 +109,7 @@ router.get("/:slug/modules/:index/pdf", async (req, res) => {
 
 // ── Admin routes ──────────────────────────────────────────────────────────────
 
-// POST /api/courses  — create a new course
+// POST /api/courses — create a new course
 router.post("/", requireAdmin, async (req, res) => {
   try {
     const { slug, domain, title, description } = req.body;
@@ -107,7 +126,7 @@ router.post("/", requireAdmin, async (req, res) => {
   }
 });
 
-// POST /api/courses/:slug/modules  — add a module to a course
+// POST /api/courses/:slug/modules — add a module
 router.post("/:slug/modules", requireAdmin, async (req, res) => {
   try {
     const course = await Course.findOne({
@@ -125,16 +144,8 @@ router.post("/:slug/modules", requireAdmin, async (req, res) => {
       ? Math.max(...course.modules.map((m) => m.order)) + 1
       : 0;
 
-    await Module.create({
-      courseId: course.id,
-      order: nextOrder,
-      title,
-      time,
-      body,
-      pdfFile: null
-    });
+    await Module.create({ courseId: course.id, order: nextOrder, title, time, body, pdfFile: null });
 
-    // Re-fetch and return updated course
     const updated = await Course.findOne({
       where: { slug: req.params.slug },
       include: [{ model: Module, as: "modules" }]
@@ -145,7 +156,33 @@ router.post("/:slug/modules", requireAdmin, async (req, res) => {
   }
 });
 
-// PUT /api/courses/:slug/modules/:index  — edit an existing module
+// POST /api/courses/:slug/modules/:index/pdf — upload a PDF for a module
+router.post("/:slug/modules/:index/pdf", requireAdmin, (req, res, next) => {
+  upload.single("pdf")(req, res, async (err) => {
+    if (err) return res.status(400).json({ error: err.message });
+    try {
+      const course = await Course.findOne({ where: { slug: req.params.slug } });
+      if (!course) return res.status(404).json({ error: "Course not found" });
+
+      const order = Number(req.params.index);
+      const courseModule = await Module.findOne({ where: { courseId: course.id, order } });
+      if (!courseModule) return res.status(404).json({ error: "Module not found" });
+
+      const fileName = `${req.params.slug}-${req.params.index}.pdf`;
+      await courseModule.update({ pdfFile: fileName });
+
+      const updated = await Course.findOne({
+        where: { slug: req.params.slug },
+        include: [{ model: Module, as: "modules" }]
+      });
+      res.json(serializeCourse(updated));
+    } catch (e) {
+      res.status(500).json({ error: "Failed to save PDF" });
+    }
+  });
+});
+
+// PUT /api/courses/:slug/modules/:index — edit a module
 router.put("/:slug/modules/:index", requireAdmin, async (req, res) => {
   try {
     const course = await Course.findOne({ where: { slug: req.params.slug } });
@@ -172,7 +209,7 @@ router.put("/:slug/modules/:index", requireAdmin, async (req, res) => {
   }
 });
 
-// DELETE /api/courses/:slug/modules/:index  — remove a module
+// DELETE /api/courses/:slug/modules/:index — remove a module
 router.delete("/:slug/modules/:index", requireAdmin, async (req, res) => {
   try {
     const course = await Course.findOne({ where: { slug: req.params.slug } });
@@ -182,9 +219,14 @@ router.delete("/:slug/modules/:index", requireAdmin, async (req, res) => {
     const courseModule = await Module.findOne({ where: { courseId: course.id, order } });
     if (!courseModule) return res.status(404).json({ error: "Module not found" });
 
+    // Delete the PDF file if it exists
+    if (courseModule.pdfFile) {
+      const filePath = path.join(MATERIALS_DIR, courseModule.pdfFile);
+      if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
+    }
+
     await courseModule.destroy();
 
-    // Re-number remaining modules so order stays gapless
     const remaining = await Module.findAll({
       where: { courseId: course.id },
       order: [["order", "ASC"]]

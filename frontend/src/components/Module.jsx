@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { getModulePdfUrl, adminEditModule, adminDeleteModule } from "../api";
+import React, { useRef, useState } from "react";
+import { getModulePdfUrl, adminEditModule, adminDeleteModule, adminUploadPdf } from "../api";
 
 function EditModuleForm({ courseSlug, module, onDone, onCancel }) {
   const [title, setTitle] = useState(module.title);
@@ -57,6 +57,9 @@ export default function Module({ courseSlug, index, module, done, onToggle, isAd
   const [showPdf,   setShowPdf]   = useState(false);
   const [editing,   setEditing]   = useState(false);
   const [deleting,  setDeleting]  = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [uploadErr, setUploadErr] = useState("");
+  const fileInputRef = useRef(null);
   const pdfUrl = getModulePdfUrl(courseSlug, index);
 
   async function handleDelete(e) {
@@ -69,6 +72,21 @@ export default function Module({ courseSlug, index, module, done, onToggle, isAd
     } catch (err) {
       alert("Failed to delete: " + err.message);
       setDeleting(false);
+    }
+  }
+
+  async function handlePdfUpload(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    setUploading(true); setUploadErr("");
+    try {
+      const updated = await adminUploadPdf(courseSlug, module.order, file);
+      onModuleUpdated(updated);
+    } catch (err) {
+      setUploadErr(err.message);
+    } finally {
+      setUploading(false);
+      if (fileInputRef.current) fileInputRef.current.value = "";
     }
   }
 
@@ -166,6 +184,31 @@ export default function Module({ courseSlug, index, module, done, onToggle, isAd
                     >
                       {done ? "Completed ✓" : "Mark as complete"}
                     </button>
+                  )}
+
+                  {/* Upload PDF — admin only */}
+                  {isAdmin && (
+                    <div className="ml-auto flex items-center gap-2" onClick={e => e.stopPropagation()}>
+                      <input
+                        ref={fileInputRef}
+                        type="file"
+                        accept="application/pdf"
+                        className="hidden"
+                        onChange={handlePdfUpload}
+                      />
+                      <button
+                        onClick={() => fileInputRef.current?.click()}
+                        disabled={uploading}
+                        className="px-3.5 py-1.5 rounded-full text-xs font-medium border border-amber text-amber hover:bg-amber hover:text-white transition disabled:opacity-50 inline-flex items-center gap-1.5"
+                      >
+                        <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+                          <path d="M8 11V3M5 6l3-3 3 3" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+                          <path d="M2 13h12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"/>
+                        </svg>
+                        {uploading ? "Uploading…" : module.pdfFile ? "Replace PDF" : "Upload PDF"}
+                      </button>
+                      {uploadErr && <span className="text-xs text-red-500">{uploadErr}</span>}
+                    </div>
                   )}
                 </div>
 

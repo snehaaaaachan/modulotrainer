@@ -63,11 +63,23 @@ function NewCourseForm({ onDone, onCancel }) {
 
 export default function CourseCatalog({ courses, progress, onOpenCourse, isAdmin, onCourseCreated }) {
   const [showNewForm, setShowNewForm] = useState(false);
+  const [search, setSearch] = useState("");
 
   function handleCreated(course) {
     onCourseCreated(course);
     setShowNewForm(false);
   }
+
+  // Filter by course title, domain, or any module title
+  const filtered = courses.filter((course) => {
+    if (!search.trim()) return true;
+    const q = search.toLowerCase();
+    return (
+      course.title.toLowerCase().includes(q) ||
+      course.domain.toLowerCase().includes(q) ||
+      course.modules.some((m) => m.title.toLowerCase().includes(q))
+    );
+  });
 
   return (
     <div>
@@ -89,16 +101,41 @@ export default function CourseCatalog({ courses, progress, onOpenCourse, isAdmin
         )}
       </div>
 
-      {courses.length === 0 && !showNewForm ? (
+      {/* Search bar */}
+      <div className="relative mb-5">
+        <svg className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted" width="15" height="15" viewBox="0 0 16 16" fill="none">
+          <circle cx="6.5" cy="6.5" r="4" stroke="currentColor" strokeWidth="1.4"/>
+          <path d="M11 11l3 3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
+        </svg>
+        <input
+          type="text"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Search courses or modules…"
+          className="w-full bg-paperRaised border border-line rounded-xl pl-10 pr-4 py-2.5 text-sm text-ink placeholder:text-muted focus:outline-none focus:border-forest transition"
+        />
+        {search && (
+          <button
+            onClick={() => setSearch("")}
+            className="absolute right-3.5 top-1/2 -translate-y-1/2 text-muted hover:text-ink"
+          >
+            <svg width="13" height="13" viewBox="0 0 16 16" fill="none">
+              <path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+            </svg>
+          </button>
+        )}
+      </div>
+
+      {filtered.length === 0 && !showNewForm ? (
         <p className="text-center text-muted py-10 text-sm">
-          No courses yet. Run <code>npm run seed</code> in the backend to load sample tracks.
+          {search ? `No courses or modules matching "${search}"` : "No courses yet. Run npm run seed in the backend to load sample tracks."}
         </p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {showNewForm && (
             <NewCourseForm onDone={handleCreated} onCancel={() => setShowNewForm(false)} />
           )}
-          {courses.map((course) => (
+          {filtered.map((course) => (
             <CourseCard
               key={course.slug}
               course={course}

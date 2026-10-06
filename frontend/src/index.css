@@ -6,8 +6,25 @@ body {
   background-color: #eff2ed;
   color: #16241f;
   font-family: "IBM Plex Sans", system-ui, sans-serif;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+html.dark body {
+  background-color: #111815;
+  color: #e4ede8;
 }
 
 h1, h2, h3, .font-display {
   font-family: "Fraunces", Georgia, serif;
 }
+
+/* Dark mode overrides for custom colours used as bg/border/text via Tailwind */
+html.dark .bg-paper        { background-color: #111815 !important; }
+html.dark .bg-paperRaised  { background-color: #1a2420 !important; }
+html.dark .border-line     { border-color: #2a3b34 !important; }
+html.dark .text-ink        { color: #e4ede8 !important; }
+html.dark .text-inkSoft    { color: #b0c4b8 !important; }
+html.dark .text-muted      { color: #6e9a82 !important; }
+html.dark .text-forestDeep { color: #5db888 !important; }
+html.dark .bg-forest\/10   { background-color: rgba(47,111,78,0.2) !important; }
+html.dark .bg-amberSoft    { background-color: #3d2e10 !important; }

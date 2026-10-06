@@ -93,3 +93,17 @@ export async function adminDeleteModule(courseSlug, moduleIndex) {
   if (!res.ok) throw new Error(json.error || "Failed to delete module");
   return json;
 }
+
+export async function adminUploadPdf(courseSlug, moduleIndex, file) {
+  const formData = new FormData();
+  formData.append("pdf", file);
+  // Note: do NOT set Content-Type header — browser sets it with boundary automatically
+  const res = await fetch(`${API_URL}/courses/${courseSlug}/modules/${moduleIndex}/pdf`, {
+    method: "POST",
+    headers: { "x-role": "admin" },
+    body: formData
+  });
+  const json = await res.json();
+  if (!res.ok) throw new Error(json.error || "Failed to upload PDF");
+  return json;
+}

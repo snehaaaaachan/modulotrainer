@@ -5,6 +5,12 @@ import CourseDetail  from "./components/CourseDetail";
 import { getStudentId, fetchCourses, fetchProgress, toggleModule } from "./api";
 
 export default function App() {
+  // ── Dark mode ───────────────────────────────────────────────────────────────
+  const [dark, setDark] = useState(() => localStorage.getItem("mt_dark") === "1");
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", dark);
+    localStorage.setItem("mt_dark", dark ? "1" : "0");
+  }, [dark]);
   // ── Auth ────────────────────────────────────────────────────────────────────
   const [user, setUser] = useState(() => {
     try {
@@ -95,7 +101,7 @@ export default function App() {
             </div>
           </div>
 
-          {/* Role badge + sign-out */}
+          {/* Role badge + dark mode + sign-out */}
           <div className="flex items-center gap-3">
             <span className={
               "px-3 py-1 rounded-full text-xs font-semibold border " +
@@ -105,6 +111,25 @@ export default function App() {
             }>
               {isAdmin ? "Admin" : "Student"}: {user.username}
             </span>
+
+            {/* Dark mode toggle */}
+            <button
+              onClick={() => setDark((d) => !d)}
+              aria-label="Toggle dark mode"
+              className="w-8 h-8 rounded-full border border-line flex items-center justify-center text-muted hover:text-ink hover:border-ink transition"
+            >
+              {dark ? (
+                <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
+                  <circle cx="8" cy="8" r="3" stroke="currentColor" strokeWidth="1.4"/>
+                  <path d="M8 1v1.5M8 13.5V15M1 8h1.5M13.5 8H15M3.1 3.1l1.05 1.05M11.85 11.85l1.05 1.05M3.1 12.9l1.05-1.05M11.85 4.15l1.05-1.05" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
+                </svg>
+              ) : (
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                  <path d="M13.5 10.5A6 6 0 0 1 5.5 2.5a6 6 0 1 0 8 8Z" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round"/>
+                </svg>
+              )}
+            </button>
+
             <button
               onClick={handleLogout}
               className="text-xs text-muted hover:text-ink border border-line rounded-full px-3 py-1 transition"
