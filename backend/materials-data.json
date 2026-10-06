@@ -1,0 +1,412 @@
+[
+  {
+    "slug": "webdev",
+    "domain": "Software",
+    "title": "Web Development Foundations",
+    "description": "Go from a blank page to a working, responsive site — structure, style, interactivity, and getting it online.",
+    "modules": [
+      {
+        "title": "HTML Basics",
+        "time": "35 min",
+        "body": "Structure a page with semantic tags, understand the document tree, and build your first real markup by hand.",
+        "intro": "HTML gives a web page its structure — it's the skeleton everything else (CSS, JavaScript) hangs off of. Every element you place on a page, from a heading to an image, is an HTML tag, and the way tags nest inside one another forms a tree the browser reads to decide what to draw and in what order.",
+        "core": [
+          "Tags come in pairs that wrap content, like <p>...</p> for a paragraph or <h1>...</h1> for a top-level heading; a few, like <img> and <br>, are self-closing.",
+          "Semantic elements — <header>, <nav>, <main>, <article>, <footer> — describe what a section of the page *means*, not just how it looks. Screen readers and search engines both rely on this meaning.",
+          "Attributes add extra information to a tag: href on a link, src and alt on an image, class or id for styling and scripting hooks.",
+          "Nesting tags inside each other builds the Document Object Model (DOM) — a tree structure that CSS and JavaScript both use to find and style specific parts of the page."
+        ],
+        "example": "<article>\n  <h2>My First Post</h2>\n  <p>Welcome to my <strong>new</strong> blog.</p>\n  <img src=\"hello.jpg\" alt=\"A sunrise over hills\">\n</article>",
+        "exercise": "Build a single HTML file for a short personal bio: one <h1> with your name, a <p> introducing yourself, an <img> (any placeholder image URL works), and an <a> link to a site you like. Open it in a browser and check that everything appears in the order you expect.",
+        "links": [
+          { "title": "MDN — Learn HTML", "url": "https://developer.mozilla.org/en-US/docs/Learn/HTML" },
+          { "title": "W3Schools — HTML Tutorial", "url": "https://www.w3schools.com/html/" }
+        ]
+      },
+      {
+        "title": "CSS Layouts",
+        "time": "50 min",
+        "body": "Use flexbox and grid to arrange page elements, and learn the box model that everything else builds on.",
+        "intro": "CSS controls how HTML looks and where things sit on the page. Before touching layout, it helps to understand the box model: every element is a rectangular box made of content, padding, a border, and a margin, stacked from the inside out.",
+        "core": [
+          "The box model: padding sits inside the border (space around your content), margin sits outside it (space between elements). box-sizing: border-box makes width/height include padding and border, which is usually what you want.",
+          "Flexbox (display: flex) is built for one-dimensional layouts — a row or a column of items. justify-content controls spacing along the main axis, align-items controls the cross axis.",
+          "CSS Grid (display: grid) is built for two-dimensional layouts — rows and columns at once. grid-template-columns defines the column widths directly.",
+          "Rule of thumb: reach for flexbox when arranging items in a line, grid when you're laying out a whole page or a card grid."
+        ],
+        "example": ".card-row {\n  display: flex;\n  gap: 16px;\n  justify-content: space-between;\n}\n.card {\n  flex: 1;\n  padding: 16px;\n  border: 1px solid #ddd;\n}",
+        "exercise": "Build a row of three equal-width \"cards\" using flexbox, each with a heading and a short paragraph, evenly spaced with a gap between them. Then try converting the same layout to CSS grid with grid-template-columns: repeat(3, 1fr) and compare how much CSS each approach needed.",
+        "links": [
+          { "title": "MDN — CSS Layout", "url": "https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout" },
+          { "title": "CSS-Tricks — A Guide to Flexbox", "url": "https://css-tricks.com/snippets/css/a-guide-to-flexbox/" }
+        ]
+      },
+      {
+        "title": "JavaScript Essentials",
+        "time": "55 min",
+        "body": "Variables, functions, and events — enough JavaScript to make a page respond to what someone does on it.",
+        "intro": "JavaScript is what turns a static page into something interactive. At its core, it's about storing values in variables, packaging logic into functions, and reacting to events like clicks or keystrokes.",
+        "core": [
+          "let declares a variable that can be reassigned later; const declares one that can't. Prefer const by default and switch to let only when you know a value will change.",
+          "A function packages up a piece of logic so you can reuse it: function greet(name) { return \"Hi \" + name; } or the shorter arrow form const greet = (name) => \"Hi \" + name;.",
+          "document.querySelector('.btn') finds an element on the page; addEventListener('click', fn) tells the browser to run fn whenever that element is clicked.",
+          "Reading an error message from the bottom up (the actual error) before the top (the call stack) usually gets you to the real problem faster."
+        ],
+        "example": "const button = document.querySelector('#toggle');\nbutton.addEventListener('click', () => {\n  button.textContent = button.textContent === 'Show' ? 'Hide' : 'Show';\n});",
+        "exercise": "Add a button to an HTML page that toggles a paragraph's text between two states when clicked (e.g. \"Show details\" / \"Hide details\"). Then extend it so a second click brings back the original state.",
+        "links": [
+          { "title": "MDN — JavaScript Guide", "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide" },
+          { "title": "javascript.info — The Modern JavaScript Tutorial", "url": "https://javascript.info/" }
+        ]
+      },
+      {
+        "title": "Responsive Design",
+        "time": "40 min",
+        "body": "Write CSS that adapts to any screen, from a phone to a wide monitor, using breakpoints and relative units.",
+        "intro": "A responsive site rearranges itself to stay usable whether it's viewed on a phone or a wide desktop monitor. The common strategy is to design for the smallest screen first, then add complexity as space allows.",
+        "core": [
+          "Mobile-first CSS starts with simple, stacked styles for narrow screens, then uses media queries to add multi-column layouts as the viewport grows — this tends to produce simpler, more maintainable CSS than the reverse.",
+          "A media query like @media (min-width: 768px) { ... } applies styles only above a given screen width, called a breakpoint.",
+          "Relative units — %, rem, vw — scale with their context or the viewport, unlike fixed px values, which is why they're preferred for widths and font sizes in responsive layouts.",
+          "Images should have max-width: 100% so they shrink to fit their container instead of overflowing it."
+        ],
+        "example": ".layout { display: block; }\n@media (min-width: 768px) {\n  .layout { display: flex; gap: 24px; }\n}",
+        "exercise": "Take the three-card layout from the CSS Layouts module and make it stack vertically below 600px wide, then switch to a horizontal row above that. Resize your browser window to test both states.",
+        "links": [
+          { "title": "MDN — Responsive Design", "url": "https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Responsive_Design" },
+          { "title": "web.dev — Learn Responsive Design", "url": "https://web.dev/learn/design/" }
+        ]
+      },
+      {
+        "title": "Forms & Validation",
+        "time": "30 min",
+        "body": "Collect input safely: build forms, validate them in the browser, and give clear feedback on errors.",
+        "intro": "Forms are how a page collects information from a visitor — a signup, a search box, a checkout. Getting validation right means catching obvious mistakes early without being annoying about it.",
+        "core": [
+          "HTML input types do a lot of validation for free: type=\"email\" checks for an @ sign, type=\"number\" restricts to digits, and the required attribute blocks empty submission.",
+          "The pattern attribute lets you enforce a custom format with a regular expression when built-in types aren't specific enough.",
+          "The :invalid CSS pseudo-class lets you style a field differently the moment its value doesn't pass validation, which is useful for real-time feedback.",
+          "Client-side validation is about user experience, not security — a malicious user can bypass it entirely, so the server must always re-validate anything it receives."
+        ],
+        "example": "<form>\n  <input type=\"email\" required placeholder=\"you@example.com\">\n  <button type=\"submit\">Sign up</button>\n</form>",
+        "exercise": "Build a small signup form with a name field (required), an email field (type=\"email\", required), and a password field (minlength=\"8\"). Try submitting it empty and with an invalid email to see the browser's built-in error messages.",
+        "links": [
+          { "title": "MDN — Learn Forms", "url": "https://developer.mozilla.org/en-US/docs/Learn/Forms" },
+          { "title": "MDN — Client-side Form Validation", "url": "https://developer.mozilla.org/en-US/docs/Learn/Forms/Form_validation" }
+        ]
+      },
+      {
+        "title": "Deploying Your Site",
+        "time": "25 min",
+        "body": "Take a finished project from your machine to a live URL that anyone can open.",
+        "intro": "A finished project sitting on your laptop isn't a website yet — deploying it means putting the files somewhere the public internet can reach, at a stable address.",
+        "core": [
+          "A build step compiles your source files (which might use tools like Sass or a framework) into plain HTML/CSS/JS that any browser can run.",
+          "Static hosts — GitHub Pages, Netlify, Vercel — are built specifically for front-end-only sites: you push your files, and they're served from a URL within minutes, usually for free.",
+          "A custom domain is really just a DNS record pointing a name you own (like yoursite.com) at your host's servers; it's a configuration step, not a rebuild.",
+          "Your local dev server (e.g. localhost:3000) is only reachable from your own machine — deployment is what makes the same project reachable from anywhere."
+        ],
+        "example": "# A typical static deploy, using the Netlify CLI\nnetlify deploy --prod --dir=./build",
+        "exercise": "Take any small HTML/CSS project you've built and deploy it to a free static host of your choice. Confirm you can open the live URL from a different device (like your phone) to prove it's really public.",
+        "links": [
+          { "title": "GitHub Pages", "url": "https://pages.github.com/" },
+          { "title": "Vercel Documentation", "url": "https://vercel.com/docs" }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "datasci",
+    "domain": "Data",
+    "title": "Data Science Starter",
+    "description": "Load real data, clean it, look at it from a few angles, and pull out a finding worth sharing.",
+    "modules": [
+      {
+        "title": "Python Basics",
+        "time": "45 min",
+        "body": "The core syntax you need before touching a dataset: lists, loops, functions, and reading error messages.",
+        "intro": "Python is the most common language for data work because its syntax stays out of the way. Before loading any real data, it helps to be comfortable with a handful of core building blocks.",
+        "core": [
+          "A list holds an ordered collection: scores = [88, 92, 79]. A dictionary holds key-value pairs: student = {\"name\": \"Ana\", \"score\": 88}.",
+          "A for loop repeats an action across a collection: for score in scores: print(score).",
+          "A function packages logic for reuse: def average(nums): return sum(nums) / len(nums).",
+          "Reading a Python traceback from the bottom up shows you the actual error first (e.g. TypeError, KeyError) before the chain of calls that led to it."
+        ],
+        "example": "def average(nums):\n    return sum(nums) / len(nums)\n\nscores = [88, 92, 79]\nprint(average(scores))  # 86.33...",
+        "exercise": "Write a function that takes a list of numbers and returns the highest and lowest values as a tuple. Test it on a list you make up, including one with negative numbers.",
+        "links": [
+          { "title": "The Python Tutorial (official docs)", "url": "https://docs.python.org/3/tutorial/" },
+          { "title": "LearnPython.org", "url": "https://www.learnpython.org/" }
+        ]
+      },
+      {
+        "title": "Data with Pandas",
+        "time": "50 min",
+        "body": "Load a spreadsheet into Python, filter and reshape it, and handle the missing values that show up.",
+        "intro": "pandas is the standard Python library for working with tabular data — the kind you'd otherwise put in a spreadsheet. Its core object, the DataFrame, represents a table with labeled rows and columns.",
+        "core": [
+          "pd.read_csv(\"file.csv\") loads a spreadsheet into a DataFrame in one line.",
+          "Filtering rows uses a boolean condition: df[df[\"age\"] > 30]. Selecting columns uses their names: df[[\"name\", \"age\"]].",
+          "Missing values show up as NaN. df.dropna() removes rows with any missing values; df.fillna(0) replaces them with a chosen value — which one you pick depends on what the missing value actually means.",
+          "df.groupby(\"category\").mean() is one of the most common patterns: split the data into groups, then summarize each group."
+        ],
+        "example": "import pandas as pd\ndf = pd.read_csv(\"sales.csv\")\ndf = df.dropna(subset=[\"revenue\"])\nprint(df.groupby(\"region\")[\"revenue\"].sum())",
+        "exercise": "Find any small CSV file (or make one with 10-20 rows in a spreadsheet and export it), load it with pandas, and print the average of one numeric column grouped by one categorical column.",
+        "links": [
+          { "title": "pandas — Getting Started", "url": "https://pandas.pydata.org/docs/getting_started/index.html" },
+          { "title": "pandas — 10 Minutes to pandas", "url": "https://pandas.pydata.org/docs/user_guide/10min.html" }
+        ]
+      },
+      {
+        "title": "Visualizing Data",
+        "time": "35 min",
+        "body": "Turn a table of numbers into a chart that actually makes the pattern obvious at a glance.",
+        "intro": "A well-chosen chart can show in one glance what would take paragraphs to describe in words. The trick is matching the chart type to the kind of comparison you're actually making.",
+        "core": [
+          "Use a bar chart to compare a handful of categories, a line chart to show change over time, and a scatter plot to look for a relationship between two numeric variables.",
+          "Every chart should be labeled: axis titles with units, a legend if there's more than one series, and a clear title stating what the chart shows.",
+          "Sorting bars by value (instead of alphabetically) usually makes a comparison easier to read at a glance.",
+          "More color or decoration doesn't make a chart more informative — it often hides the pattern you're trying to show."
+        ],
+        "example": "import matplotlib.pyplot as plt\ndf.groupby(\"region\")[\"revenue\"].sum().plot(kind=\"bar\")\nplt.ylabel(\"Revenue ($)\")\nplt.title(\"Revenue by Region\")\nplt.show()",
+        "exercise": "Using the dataset from the pandas module, make one bar chart and one line chart (if you have any date-like column) with proper axis labels and a title.",
+        "links": [
+          { "title": "Matplotlib — Tutorials", "url": "https://matplotlib.org/stable/tutorials/index.html" },
+          { "title": "From Data to Viz — chart chooser", "url": "https://www.data-to-viz.com/" }
+        ]
+      },
+      {
+        "title": "Statistics Primer",
+        "time": "40 min",
+        "body": "Mean, median, spread, and correlation — the handful of ideas that most data questions come back to.",
+        "intro": "You don't need advanced math to ask good questions of data — a small set of statistical ideas covers most everyday cases.",
+        "core": [
+          "The mean (average) is sensitive to outliers; the median (the middle value) is not. When a dataset has extreme values, the median often tells a truer story.",
+          "Spread — variance and standard deviation — tells you how reliable an average actually is. Two datasets can have the same mean and look completely different once you account for spread.",
+          "Correlation measures how strongly two variables move together, from -1 to 1, but a strong correlation never proves that one variable causes the other.",
+          "A classic example: ice cream sales and drowning incidents both rise in summer — they're correlated, but neither causes the other; both are driven by warm weather."
+        ],
+        "example": "import pandas as pd\nprint(df[\"revenue\"].mean(), df[\"revenue\"].median())\nprint(df[[\"revenue\", \"marketing_spend\"]].corr())",
+        "exercise": "Take any two numeric columns in a dataset you have access to and compute their correlation. Write one sentence about what a confounding factor might be if the correlation turns out to be strong.",
+        "links": [
+          { "title": "Khan Academy — Statistics & Probability", "url": "https://www.khanacademy.org/math/statistics-probability" },
+          { "title": "Online Statistics Education (OpenStax/Rice)", "url": "https://onlinestatbook.com/" }
+        ]
+      },
+      {
+        "title": "Intro to Machine Learning",
+        "time": "55 min",
+        "body": "Train a simple model on your cleaned data and see what it gets right, and where it doesn't.",
+        "intro": "Machine learning, at its simplest, is teaching a program to find a pattern in examples so it can make predictions on new, unseen data.",
+        "core": [
+          "Features are the inputs a model learns from (e.g. square footage, number of bedrooms); the label is what it's trying to predict (e.g. house price).",
+          "A train/test split holds back some data the model never sees during training, so you can honestly check whether it generalizes rather than just memorizing.",
+          "scikit-learn's pattern is consistent across models: model.fit(X_train, y_train) to train, model.predict(X_test) to get predictions.",
+          "Accuracy alone can be misleading — a model that always predicts \"no\" can score 95% accuracy on data where only 5% of cases are \"yes\", while being useless."
+        ],
+        "example": "from sklearn.model_selection import train_test_split\nfrom sklearn.linear_model import LinearRegression\n\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)\nmodel = LinearRegression().fit(X_train, y_train)\nprint(model.score(X_test, y_test))",
+        "exercise": "Using scikit-learn's built-in sample datasets (e.g. sklearn.datasets.load_diabetes), split the data, train a simple regression model, and print its score on the held-out test set.",
+        "links": [
+          { "title": "scikit-learn — Getting Started", "url": "https://scikit-learn.org/stable/getting_started.html" },
+          { "title": "Google — Machine Learning Crash Course", "url": "https://developers.google.com/machine-learning/crash-course" }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "design",
+    "domain": "Design",
+    "title": "UI/UX Design Principles",
+    "description": "Learn to think like a designer: understand the user first, then sketch, test, and refine the interface.",
+    "modules": [
+      {
+        "title": "Design Thinking",
+        "time": "30 min",
+        "body": "Start from the person using the product, not the feature list — frame problems before you sketch solutions.",
+        "intro": "Design thinking is a way of working that puts the person using a product ahead of the features on a spec sheet. It's less a rigid process than a habit of checking your assumptions against real people before committing to a solution.",
+        "core": [
+          "The five commonly cited stages are: empathize (understand the user's real situation), define (frame the actual problem), ideate (generate many possible solutions), prototype (make a rough version), and test (see how real people respond).",
+          "A well-framed problem statement focuses on the user's need, not a specific solution — \"commuters need to know when the next bus arrives\" rather than \"we need an app.\"",
+          "The stages aren't strictly linear — testing often sends you back to redefine the problem once you see how people actually behave.",
+          "Cheap, early prototypes (paper, sketches) are meant to be thrown away; that's what makes them useful for testing ideas fast."
+        ],
+        "example": null,
+        "exercise": "Pick an everyday frustration (e.g. finding parking, splitting a bill with friends). Write a one-sentence problem statement focused on the user's need, not a solution, then list three completely different ways you might solve it.",
+        "links": [
+          { "title": "Nielsen Norman Group — Design Thinking 101", "url": "https://www.nngroup.com/articles/design-thinking/" },
+          { "title": "Interaction Design Foundation — What is Design Thinking?", "url": "https://www.interaction-design.org/literature/topics/design-thinking" }
+        ]
+      },
+      {
+        "title": "Color & Typography",
+        "time": "35 min",
+        "body": "Build a small, deliberate palette and type scale, and learn why most screens need fewer choices, not more.",
+        "intro": "Color and type are the two elements a person notices before reading a single word — and both work best when constrained to a small, deliberate set of choices rather than picked ad hoc, screen by screen.",
+        "core": [
+          "A simple palette often follows a 60-30-10 split: a dominant neutral (60%), a secondary color (30%), and an accent used sparingly for emphasis (10%).",
+          "A type scale — a small set of font sizes, like 14/16/20/28/40px — keeps headings and body text consistent across every screen instead of being picked freely each time.",
+          "Contrast isn't just aesthetic: WCAG accessibility guidelines require a minimum contrast ratio (commonly 4.5:1 for body text) so text stays legible for people with low vision.",
+          "Limiting yourself to one or two typefaces (often one for headings, one for body) reads as more intentional than mixing several."
+        ],
+        "example": null,
+        "exercise": "Pick a dominant color, a secondary color, and one accent color for a hypothetical app. Check the contrast between your text color and background using a free contrast checker, and adjust until it passes.",
+        "links": [
+          { "title": "WebAIM — Contrast Checker", "url": "https://webaim.org/resources/contrastchecker/" },
+          { "title": "Nielsen Norman Group — Typography Terms Every Designer Should Know", "url": "https://www.nngroup.com/articles/typography-terms/" }
+        ]
+      },
+      {
+        "title": "Wireframing",
+        "time": "40 min",
+        "body": "Sketch a screen's structure fast and cheap, before any pixel is final, to test layout ideas quickly.",
+        "intro": "A wireframe is a rough sketch of a screen's layout — boxes for images, lines for text, no color or final type — meant to test structure before anyone invests time in visual polish.",
+        "core": [
+          "Low fidelity (pencil and paper, or simple boxes) is for testing layout ideas fast and cheap; it invites blunt feedback because nothing looks \"finished\" yet.",
+          "Higher fidelity wireframes add more real structure (actual spacing, real content length) once the rough layout has been validated.",
+          "Common elements to block out: navigation, primary content area, calls to action, and any repeating pattern like a card or list item.",
+          "It's far cheaper to throw away and redo a five-minute sketch than a fully designed, polished screen."
+        ],
+        "example": null,
+        "exercise": "On paper or in any drawing tool, sketch three different layout ideas for a single screen (e.g. a recipe app's main page) in under five minutes each. Notice how much you can compare once none of them are precious.",
+        "links": [
+          { "title": "Nielsen Norman Group — Wireframing 101", "url": "https://www.nngroup.com/articles/wireframing-101/" },
+          { "title": "Figma — What is Wireframing?", "url": "https://www.figma.com/resource-library/what-is-wireframing/" }
+        ]
+      },
+      {
+        "title": "Prototyping",
+        "time": "45 min",
+        "body": "Link static screens into something a person can click through, so a flow can be tested before it's built.",
+        "intro": "A prototype connects individual screens into something a person can actually click through — which tests a *flow*, not just how one screen looks in isolation.",
+        "core": [
+          "Fidelity should match the question you're asking: a rough clickable sketch is enough to test whether a flow makes sense; a polished, near-final prototype is needed to test visual details.",
+          "Linking screens (tapping a button leads to the next screen) surfaces problems a set of static images never would — like a confusing number of steps, or a dead end.",
+          "Most modern design tools (Figma, Adobe XD) let you link frames together into a prototype without writing any code.",
+          "Test a prototype with a specific task in mind (\"find and book a table for two\") rather than just asking someone to \"look around.\""
+        ],
+        "example": null,
+        "exercise": "Using any design tool you have access to (even simple slides work), link three to four screens into a clickable flow for a basic task, like signing up for an account. Try clicking through it yourself as if you were a first-time user.",
+        "links": [
+          { "title": "Nielsen Norman Group — Prototyping 101", "url": "https://www.nngroup.com/articles/prototyping-101/" },
+          { "title": "Figma — Prototyping Basics", "url": "https://www.figma.com/prototyping/" }
+        ]
+      },
+      {
+        "title": "Usability Testing",
+        "time": "35 min",
+        "body": "Watch someone use your prototype, notice where they hesitate, and turn that into a short list of fixes.",
+        "intro": "Usability testing means watching a real person attempt a task on your design and paying attention to what they actually do, not just what they say afterward.",
+        "core": [
+          "Jakob Nielsen's well-known finding is that testing with about five users typically surfaces most major usability problems — you don't need dozens of participants to learn a lot.",
+          "The think-aloud protocol asks participants to narrate their thoughts as they work, which surfaces confusion in the moment rather than in a memory-shaped summary afterward.",
+          "Give participants a specific, realistic task (\"find this product and add it to your cart\") instead of an open-ended \"explore the site.\"",
+          "Hesitation, backtracking, and re-reading are all signals worth writing down, even if the participant eventually completes the task."
+        ],
+        "example": null,
+        "exercise": "Ask a friend to complete one specific task using an app or website you use often, while thinking out loud, and just watch — don't help. Write down every moment they hesitated or backtracked.",
+        "links": [
+          { "title": "Nielsen Norman Group — Usability Testing 101", "url": "https://www.nngroup.com/articles/usability-testing-101/" },
+          { "title": "Usability.gov — Usability Testing", "url": "https://www.usability.gov/how-to-and-tools/methods/usability-testing.html" }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "marketing",
+    "domain": "Marketing",
+    "title": "Digital Marketing Essentials",
+    "description": "Understand how people find and choose a product online, from search to social to the numbers behind it.",
+    "modules": [
+      {
+        "title": "Marketing Fundamentals",
+        "time": "30 min",
+        "body": "The basic shape of a marketing funnel, and where each channel you'll learn next fits into it.",
+        "intro": "Most marketing activity can be mapped onto a funnel: a large number of people become aware of a product, a smaller number consider it seriously, and a smaller number still actually decide to buy.",
+        "core": [
+          "Awareness stage: people encounter your brand for the first time — social posts, search ads, and word of mouth typically live here.",
+          "Consideration stage: people are comparing options — content like comparison guides, reviews, and case studies matters most here.",
+          "Decision stage: people are ready to act — clear pricing, testimonials, and a low-friction checkout matter most here.",
+          "Not every channel needs to do every job: a search ad usually targets people already close to a decision, while a broad social campaign often targets pure awareness."
+        ],
+        "example": null,
+        "exercise": "Pick a product you've bought recently. Write down one specific piece of marketing (an ad, a post, a review) that influenced you at each stage of the funnel — awareness, consideration, decision.",
+        "links": [
+          { "title": "HubSpot — What Is a Marketing Funnel?", "url": "https://blog.hubspot.com/marketing/marketing-funnel" },
+          { "title": "Google Digital Garage — Fundamentals of Digital Marketing", "url": "https://learndigital.withgoogle.com/digitalgarage" }
+        ]
+      },
+      {
+        "title": "SEO Basics",
+        "time": "40 min",
+        "body": "Help a page show up in search results by understanding what search engines are actually looking for.",
+        "intro": "Search engine optimization is about helping a page rank well for the searches its intended audience is actually typing in — which means starting from how people search, not just what you want to say.",
+        "core": [
+          "Keyword research means finding the actual words and phrases people search, which are often more specific and more informal than the terms a business would use internally.",
+          "On-page factors — a clear title tag, a descriptive meta description, headings that use relevant terms naturally — help search engines understand what a page is about.",
+          "Technical factors matter too: page load speed and mobile-friendliness both affect ranking, independent of the content itself.",
+          "Backlinks (other sites linking to yours) act as a trust signal — search engines treat them roughly like word-of-mouth recommendations."
+        ],
+        "example": null,
+        "exercise": "Pick a product or service and write three different search queries a real customer might type when looking for it. Search each one yourself and notice how differently the results are worded — that gap often reveals a content opportunity.",
+        "links": [
+          { "title": "Google Search — SEO Starter Guide", "url": "https://developers.google.com/search/docs/fundamentals/seo-starter-guide" },
+          { "title": "Moz — Beginner's Guide to SEO", "url": "https://moz.com/beginners-guide-to-seo" }
+        ]
+      },
+      {
+        "title": "Social Media Strategy",
+        "time": "35 min",
+        "body": "Pick the right platform for an audience and plan content that earns attention instead of interrupting it.",
+        "intro": "A social media strategy starts with matching a platform to where your actual audience already spends time and what kind of content they go there expecting — not posting the same thing everywhere.",
+        "core": [
+          "Different platforms have different norms: short-form video, professional networking, visual inspiration — posting content that fights the platform's format usually underperforms.",
+          "A content calendar, planned even loosely a few weeks ahead, tends to beat sporadic high-effort posts because consistency builds an audience that returns.",
+          "Engagement (likes, comments, shares) is a means to an end — it feeds the platform's algorithm and builds trust, but it isn't the actual business goal.",
+          "It's usually better to do one or two platforms well than to spread thin attempting a presence everywhere."
+        ],
+        "example": null,
+        "exercise": "Pick one platform your target audience uses. Sketch a two-week content calendar (just titles/topics, not full posts) that mixes at least three different content types (e.g. tips, behind-the-scenes, customer stories).",
+        "links": [
+          { "title": "Hootsuite — Social Media Strategy Guide", "url": "https://blog.hootsuite.com/social-media-strategy-template/" },
+          { "title": "Sprout Social — Social Media Strategy", "url": "https://sproutsocial.com/insights/social-media-strategy/" }
+        ]
+      },
+      {
+        "title": "Content Creation",
+        "time": "35 min",
+        "body": "Write and shape content that holds attention, from a headline through to a clear call to action.",
+        "intro": "Good marketing content earns attention rather than demanding it — which comes down to specific, concrete writing more than clever phrasing.",
+        "core": [
+          "A headline's only job is to earn the next sentence — it doesn't need to say everything, just enough to make someone want to keep reading.",
+          "Every piece of content should point toward one clear next action (read more, sign up, reply) rather than several competing ones.",
+          "Specific, concrete claims (\"loads in under one second\") are more persuasive and more memorable than vague ones (\"lightning-fast\").",
+          "Editing for length usually helps more than editing for cleverness — cutting unnecessary words keeps the reader's attention on what matters."
+        ],
+        "example": null,
+        "exercise": "Take a piece of marketing copy you've written or seen with a vague claim (\"great customer service\", \"high quality\") and rewrite it as one specific, concrete claim instead.",
+        "links": [
+          { "title": "CoSchedule — How to Write a Blog Post", "url": "https://coschedule.com/blog/how-to-write-a-blog-post" },
+          { "title": "Copyblogger — Content Marketing", "url": "https://copyblogger.com/content-marketing/" }
+        ]
+      },
+      {
+        "title": "Analytics & Metrics",
+        "time": "30 min",
+        "body": "Read a dashboard without getting lost — which numbers actually tell you if something is working.",
+        "intro": "A marketing dashboard can show dozens of numbers at once — the skill isn't knowing all of them, it's knowing which ones actually connect to a decision you're able to make.",
+        "core": [
+          "A vanity metric looks impressive (total page views, follower count) but rarely changes what you'd do next; an actionable metric is tied to a specific decision.",
+          "Conversion rate — the percentage of visitors who complete a goal — often matters more than raw traffic, since more visitors who don't convert isn't actually progress.",
+          "Metrics only mean something compared against a baseline or a goal — \"1,000 visitors\" is meaningless without knowing what last month, or your target, looked like.",
+          "A spike in traffic isn't automatically good news — it matters where it came from and whether those visitors did anything once they arrived."
+        ],
+        "example": null,
+        "exercise": "Look at any analytics dashboard you have access to (a website, a social account). Pick one vanity metric and one actionable metric you can see, and write one sentence on what decision the actionable metric could actually inform.",
+        "links": [
+          { "title": "Google Analytics Academy", "url": "https://analytics.google.com/analytics/academy/" },
+          { "title": "CXL — Actionable Metrics vs. Vanity Metrics", "url": "https://cxl.com/blog/actionable-metrics/" }
+        ]
+      }
+    ]
+  }
+]
