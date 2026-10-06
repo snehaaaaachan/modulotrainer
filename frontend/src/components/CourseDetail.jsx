@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Module from "./Module";
+import Certificate from "./Certificate";
 import { adminAddModule } from "../api";
 
 function AddModuleForm({ courseSlug, onDone, onCancel }) {
@@ -54,12 +55,17 @@ function AddModuleForm({ courseSlug, onDone, onCancel }) {
   );
 }
 
-export default function CourseDetail({ course, completed, onBack, onToggleModule, isAdmin, onCourseUpdated }) {
+export default function CourseDetail({ course, completed, onBack, onToggleModule, isAdmin, onCourseUpdated, studentName }) {
   const [showAddForm, setShowAddForm] = useState(false);
 
-  const total    = course.modules.length;
-  const doneCount= completed.length;
-  const pct      = total === 0 ? 0 : Math.round((doneCount / total) * 100);
+  const total     = course.modules.length;
+  const doneCount = completed.length;
+  const pct       = total === 0 ? 0 : Math.round((doneCount / total) * 100);
+  const isComplete = total > 0 && doneCount === total;
+
+  const completedDate = new Date().toLocaleDateString("en-US", {
+    year: "numeric", month: "long", day: "numeric"
+  });
 
   function handleModuleAdded(updatedCourse) {
     onCourseUpdated(updatedCourse);
@@ -91,6 +97,16 @@ export default function CourseDetail({ course, completed, onBack, onToggleModule
           {doneCount} / {total} complete
         </span>
       </div>
+
+      {/* Certificate — shown when 100% done, only for students */}
+      {isComplete && !isAdmin && (
+        <Certificate
+          studentName={studentName}
+          courseTitle={course.title}
+          domain={course.domain}
+          completedDate={completedDate}
+        />
+      )}
 
       <div className="relative pl-9 before:content-[''] before:absolute before:left-[10px] before:top-2 before:bottom-2 before:w-0.5 before:bg-line">
         {course.modules.map((m, idx) => (

@@ -186,6 +186,7 @@ export default function App() {
           onToggleModule={handleToggleModule}
           isAdmin={isAdmin}
           onCourseUpdated={handleCourseUpdated}
+          studentName={user.username}
         />
       ) : (
         <CourseCatalog

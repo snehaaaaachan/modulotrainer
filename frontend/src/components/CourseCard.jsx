@@ -31,16 +31,25 @@ export default function CourseCard({ course, doneCount, onOpen }) {
         <span className="text-xs text-muted">
           {doneCount} of {total} modules
         </span>
-        <button
-          className={
-            "px-3.5 py-1.5 rounded-full text-xs font-medium border transition " +
-            (started
-              ? "border-forest text-forestDeep hover:bg-forest hover:text-white"
-              : "border-ink text-ink hover:bg-ink hover:text-paper")
-          }
-        >
-          {started ? (doneCount === total ? "Review track" : "Continue") : "Start track"}
-        </button>
+        {doneCount === total && total > 0 ? (
+          <span className="px-3.5 py-1.5 rounded-full text-xs font-semibold bg-forest text-white flex items-center gap-1.5">
+            <svg width="11" height="11" viewBox="0 0 16 16" fill="none">
+              <path d="M3 8.5l3.5 3.5 6.5-7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            Completed
+          </span>
+        ) : (
+          <button
+            className={
+              "px-3.5 py-1.5 rounded-full text-xs font-medium border transition " +
+              (started
+                ? "border-forest text-forestDeep hover:bg-forest hover:text-white"
+                : "border-ink text-ink hover:bg-ink hover:text-paper")
+            }
+          >
+            {started ? "Continue" : "Start track"}
+          </button>
+        )}
       </div>
     </div>
   );
