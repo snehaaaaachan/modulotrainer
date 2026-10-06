@@ -55,7 +55,7 @@ function AddModuleForm({ courseSlug, onDone, onCancel }) {
   );
 }
 
-export default function CourseDetail({ course, completed, onBack, onToggleModule, isAdmin, onCourseUpdated, studentName }) {
+export default function CourseDetail({ course, completed, onBack, onToggleModule, isAdmin, onCourseUpdated, studentName, studentId }) {
   const [showAddForm, setShowAddForm] = useState(false);
 
   const total     = course.modules.length;
@@ -119,6 +119,7 @@ export default function CourseDetail({ course, completed, onBack, onToggleModule
             onToggle={() => onToggleModule(idx)}
             isAdmin={isAdmin}
             onModuleUpdated={handleModuleUpdated}
+            studentId={studentId}
           />
         ))}
       </div>

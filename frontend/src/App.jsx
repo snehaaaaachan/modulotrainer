@@ -187,6 +187,7 @@ export default function App() {
           isAdmin={isAdmin}
           onCourseUpdated={handleCourseUpdated}
           studentName={user.username}
+          studentId={studentId}
         />
       ) : (
         <CourseCatalog
