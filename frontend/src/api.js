@@ -1,6 +1,8 @@
 const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000/api";
 
-// A student identifier stored in the browser. Swap this out once real auth exists.
+// ── Student identity ──────────────────────────────────────────────────────────
+// A persistent random ID stored in localStorage. Swap for a real user ID once
+// proper auth exists.
 export function getStudentId() {
   let id = localStorage.getItem("modulotrainer_student_id");
   if (!id) {
@@ -10,6 +12,7 @@ export function getStudentId() {
   return id;
 }
 
+// ── Public course / progress API ──────────────────────────────────────────────
 export async function fetchCourses() {
   const res = await fetch(`${API_URL}/courses`);
   if (!res.ok) throw new Error("Failed to load courses");
@@ -28,8 +31,6 @@ export async function fetchProgress(studentId) {
   return res.json();
 }
 
-// Direct URL to a module's reading PDF, served inline by the backend so it can
-// sit inside an <iframe> as well as be opened/downloaded on its own.
 export function getModulePdfUrl(courseSlug, moduleIndex) {
   return `${API_URL}/courses/${courseSlug}/modules/${moduleIndex}/pdf`;
 }
@@ -42,4 +43,53 @@ export async function toggleModule(studentId, courseSlug, moduleIndex) {
   });
   if (!res.ok) throw new Error("Failed to update progress");
   return res.json();
+}
+
+// ── Admin API (requires x-role: admin header) ─────────────────────────────────
+const adminHeaders = {
+  "Content-Type": "application/json",
+  "x-role": "admin"
+};
+
+export async function adminCreateCourse(data) {
+  const res = await fetch(`${API_URL}/courses`, {
+    method: "POST",
+    headers: adminHeaders,
+    body: JSON.stringify(data)
+  });
+  const json = await res.json();
+  if (!res.ok) throw new Error(json.error || "Failed to create course");
+  return json;
+}
+
+export async function adminAddModule(courseSlug, data) {
+  const res = await fetch(`${API_URL}/courses/${courseSlug}/modules`, {
+    method: "POST",
+    headers: adminHeaders,
+    body: JSON.stringify(data)
+  });
+  const json = await res.json();
+  if (!res.ok) throw new Error(json.error || "Failed to add module");
+  return json;
+}
+
+export async function adminEditModule(courseSlug, moduleIndex, data) {
+  const res = await fetch(`${API_URL}/courses/${courseSlug}/modules/${moduleIndex}`, {
+    method: "PUT",
+    headers: adminHeaders,
+    body: JSON.stringify(data)
+  });
+  const json = await res.json();
+  if (!res.ok) throw new Error(json.error || "Failed to edit module");
+  return json;
+}
+
+export async function adminDeleteModule(courseSlug, moduleIndex) {
+  const res = await fetch(`${API_URL}/courses/${courseSlug}/modules/${moduleIndex}`, {
+    method: "DELETE",
+    headers: adminHeaders
+  });
+  const json = await res.json();
+  if (!res.ok) throw new Error(json.error || "Failed to delete module");
+  return json;
 }
