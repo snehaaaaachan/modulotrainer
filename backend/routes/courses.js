@@ -1,9 +1,10 @@
-const express  = require("express");
-const path     = require("path");
-const fs       = require("fs");
-const multer   = require("multer");
-const router   = express.Router();
+const express      = require("express");
+const path         = require("path");
+const fs           = require("fs");
+const multer       = require("multer");
+const router       = express.Router();
 const { Course, Module } = require("../models");
+const quizzesRouter = require("./quizzes");
 
 const MATERIALS_DIR = path.join(__dirname, "..", "materials");
 
@@ -244,5 +245,8 @@ router.delete("/:slug/modules/:index", requireAdmin, async (req, res) => {
     res.status(500).json({ error: "Failed to delete module" });
   }
 });
+
+// Mount quiz routes — nested under /:slug/modules/:index/quiz
+router.use("/:slug/modules/:index/quiz", quizzesRouter);
 
 module.exports = router;
