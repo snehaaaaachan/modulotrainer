@@ -1,0 +1,107 @@
+{
+  "webdev-0": [
+    { "question": "Which HTML element is used for the most important heading?", "options": ["<h6>", "<heading>", "<h1>", "<head>"], "correctIndex": 2, "explanation": "<h1> is the top-level heading. Headings go from h1 (most important) to h6 (least)." },
+    { "question": "What does the 'alt' attribute on an <img> tag do?", "options": ["Sets image alignment", "Provides alternative text for screen readers", "Sets the image title", "Links the image to a URL"], "correctIndex": 1, "explanation": "The alt attribute provides a text description used by screen readers and shown when the image fails to load." },
+    { "question": "Which of these is a semantic HTML element?", "options": ["<div>", "<span>", "<article>", "<b>"], "correctIndex": 2, "explanation": "<article> is semantic — it describes what the content means. <div> and <span> are generic containers." }
+  ],
+  "webdev-1": [
+    { "question": "Which CSS property creates a flex container?", "options": ["display: block", "display: flex", "position: flex", "layout: flex"], "correctIndex": 1, "explanation": "display: flex turns an element into a flex container, enabling flexbox layout for its children." },
+    { "question": "What does 'box-sizing: border-box' do?", "options": ["Removes the border", "Makes padding and border included in the element's width", "Adds a box shadow", "Centres the element"], "correctIndex": 1, "explanation": "border-box includes padding and border in the total width/height, making sizing more predictable." },
+    { "question": "Which unit is relative to the root font size?", "options": ["px", "em", "rem", "%"], "correctIndex": 2, "explanation": "rem (root em) is relative to the root element's font size, while em is relative to the parent element." }
+  ],
+  "webdev-2": [
+    { "question": "Which keyword declares a variable that cannot be reassigned?", "options": ["var", "let", "const", "static"], "correctIndex": 2, "explanation": "const declares a binding that cannot be reassigned. Objects declared with const can still have their properties mutated." },
+    { "question": "What does document.querySelector('.btn') return?", "options": ["All elements with class btn", "The first element with class btn", "A new element named btn", "The parent of .btn"], "correctIndex": 1, "explanation": "querySelector returns the first matching element. Use querySelectorAll to get all matches." },
+    { "question": "What is an arrow function?", "options": ["A function with no return", "A shorter function syntax using =>", "A function that only runs once", "A built-in browser method"], "correctIndex": 1, "explanation": "Arrow functions are a concise syntax: const fn = (x) => x * 2; They also inherit 'this' from their enclosing scope." }
+  ],
+  "webdev-3": [
+    { "question": "What does 'mobile-first' CSS mean?", "options": ["Only supporting mobile devices", "Writing base styles for small screens, then adding complexity for larger ones", "Using mobile-specific CSS properties", "Hiding content on desktop"], "correctIndex": 1, "explanation": "Mobile-first means starting with styles for the smallest screen and using min-width media queries to enhance for larger screens." },
+    { "question": "Which CSS unit is relative to the viewport width?", "options": ["em", "rem", "vw", "px"], "correctIndex": 2, "explanation": "vw (viewport width) is a percentage of the browser window width. 100vw equals the full viewport width." },
+    { "question": "Which media query applies styles above 768px?", "options": ["@media (max-width: 768px)", "@media (min-width: 768px)", "@media screen only", "@media (width: 768px)"], "correctIndex": 1, "explanation": "min-width applies styles when the screen is at least that wide — the foundation of mobile-first breakpoints." }
+  ],
+  "webdev-4": [
+    { "question": "Which HTML attribute provides free email validation?", "options": ["validate='email'", "type='email'", "pattern='email'", "check='email'"], "correctIndex": 1, "explanation": "type='email' tells the browser to validate the input as an email address before form submission." },
+    { "question": "What does client-side validation protect against?", "options": ["All security threats", "Server errors", "User typos and accidental empty submissions", "SQL injection"], "correctIndex": 2, "explanation": "Client-side validation improves UX by catching obvious mistakes early. It cannot replace server-side validation for security." },
+    { "question": "Which CSS pseudo-class styles an invalid input?", "options": [":empty", ":invalid", ":not-valid", ":error"], "correctIndex": 1, "explanation": ":invalid matches form elements whose values fail validation, allowing real-time visual feedback." }
+  ],
+  "webdev-5": [
+    { "question": "What is a 'build step' in web development?", "options": ["Running the server", "Compiling source files into browser-ready HTML/CSS/JS", "Pushing code to GitHub", "Opening the app in a browser"], "correctIndex": 1, "explanation": "A build step compiles, bundles, and optimises your source files into static assets the browser can run directly." },
+    { "question": "Which of these is a static hosting platform?", "options": ["MySQL", "MongoDB", "Vercel", "Redis"], "correctIndex": 2, "explanation": "Vercel, Netlify, and GitHub Pages are static hosts — they serve HTML/CSS/JS without a server runtime." },
+    { "question": "Why is localhost:3000 not reachable from another device?", "options": ["The port is wrong", "localhost only resolves on your own machine", "You need to buy a domain", "Static sites cannot use ports"], "correctIndex": 1, "explanation": "localhost is a loopback address that only resolves to your own machine. Deployment puts your app on a public server." }
+  ],
+  "datasci-0": [
+    { "question": "What data structure holds key-value pairs in Python?", "options": ["List", "Tuple", "Dictionary", "Set"], "correctIndex": 2, "explanation": "Dictionaries store key-value pairs. Lists store ordered sequences. Both are fundamental Python structures." },
+    { "question": "What does a Python traceback show?", "options": ["The output of the program", "The chain of calls that led to an error", "The variable values", "The file size"], "correctIndex": 1, "explanation": "A traceback shows the sequence of function calls that led to the error, plus the error type and message at the bottom." },
+    { "question": "What does len([1,2,3]) return?", "options": ["1", "2", "3", "4"], "correctIndex": 2, "explanation": "len() returns the number of items in a sequence. The list [1,2,3] has 3 elements, so len returns 3." }
+  ],
+  "datasci-1": [
+    { "question": "Which pandas method loads a CSV file?", "options": ["pd.load_csv()", "pd.read_csv()", "pd.open_csv()", "pd.import_csv()"], "correctIndex": 1, "explanation": "pd.read_csv('file.csv') is the standard way to load tabular data from a CSV file into a DataFrame." },
+    { "question": "What does df.dropna() do?", "options": ["Drops all columns", "Removes rows with missing values", "Fills missing values with 0", "Renames columns"], "correctIndex": 1, "explanation": "dropna() removes rows containing NaN values. Use fillna() to replace them with a specific value instead." },
+    { "question": "What does df.groupby('category').mean() compute?", "options": ["The mean of the category column", "The mean of all columns grouped by category", "The number of rows per category", "The median per category"], "correctIndex": 1, "explanation": "groupby splits the data into groups, and .mean() computes the average of all numeric columns within each group." }
+  ],
+  "datasci-2": [
+    { "question": "Which chart type is best for showing change over time?", "options": ["Bar chart", "Pie chart", "Line chart", "Scatter plot"], "correctIndex": 2, "explanation": "Line charts are designed to show trends and changes over a continuous variable like time." },
+    { "question": "What should every chart include?", "options": ["3D effects", "Axis labels and a title", "As many colours as possible", "Animation"], "correctIndex": 1, "explanation": "Axis labels with units and a clear title are essential — they tell the reader what the chart actually shows." },
+    { "question": "What does a scatter plot show?", "options": ["Parts of a whole", "Change over time", "Relationship between two numeric variables", "Comparison of categories"], "correctIndex": 2, "explanation": "Scatter plots map two numeric variables on x and y axes, making correlations and clusters visually apparent." }
+  ],
+  "datasci-3": [
+    { "question": "Which measure is less affected by outliers?", "options": ["Mean", "Median", "Standard deviation", "Variance"], "correctIndex": 1, "explanation": "The median is the middle value and is resistant to extreme values. A single very high value can pull the mean far from most data." },
+    { "question": "What does a correlation of -1 indicate?", "options": ["No relationship", "A perfect positive relationship", "A perfect negative relationship", "A weak relationship"], "correctIndex": 2, "explanation": "Correlation ranges from -1 to 1. -1 means a perfect negative linear relationship — as one variable rises, the other falls." },
+    { "question": "Ice cream sales and drowning incidents are correlated. What explains this?", "options": ["Ice cream causes drowning", "Drowning increases appetite", "Both are driven by warm weather", "The data is wrong"], "correctIndex": 2, "explanation": "This is a classic confounding variable example — warm weather drives both, but neither causes the other." }
+  ],
+  "datasci-4": [
+    { "question": "What are 'features' in machine learning?", "options": ["The model's predictions", "The input variables used to train the model", "The test data", "The accuracy score"], "correctIndex": 1, "explanation": "Features are the input variables the model learns patterns from. The label is what the model tries to predict." },
+    { "question": "Why do we split data into train and test sets?", "options": ["To reduce file size", "To check if the model generalises to unseen data", "To speed up training", "To remove outliers"], "correctIndex": 1, "explanation": "The test set is held back during training so we can honestly evaluate whether the model learns general patterns." },
+    { "question": "A model always predicts 'no' and scores 95% on data where 5% are 'yes'. Is it good?", "options": ["Yes, 95% is excellent", "No, it fails to detect any positive cases", "Only if the data is balanced", "Yes, accuracy is the only metric"], "correctIndex": 1, "explanation": "This is the accuracy paradox. On imbalanced data, accuracy alone is misleading — use precision, recall, or F1 instead." }
+  ],
+  "design-0": [
+    { "question": "What is the first stage of design thinking?", "options": ["Prototype", "Test", "Empathize", "Define"], "correctIndex": 2, "explanation": "Empathize comes first — you need to understand the user's real situation before defining the problem or generating solutions." },
+    { "question": "A good problem statement focuses on:", "options": ["A specific technology solution", "The user's need, not a solution", "Budget constraints", "Competitor features"], "correctIndex": 1, "explanation": "A well-framed problem statement describes what the user needs, not a specific solution." },
+    { "question": "Why are cheap paper prototypes valuable?", "options": ["They look professional", "They are easy to deploy", "They can be thrown away and redone quickly", "They work on all devices"], "correctIndex": 2, "explanation": "Low-fidelity prototypes invite honest feedback and cost almost nothing to redo." }
+  ],
+  "design-1": [
+    { "question": "What is the 60-30-10 colour rule?", "options": ["Font sizes in a type scale", "A split of dominant, secondary, and accent colours", "RGB colour percentages", "Screen resolution ratios"], "correctIndex": 1, "explanation": "60% dominant neutral, 30% secondary colour, 10% accent used sparingly — a guide for cohesive colour palettes." },
+    { "question": "What does WCAG specify for body text contrast?", "options": ["2:1 minimum", "3:1 minimum", "4.5:1 minimum", "7:1 minimum"], "correctIndex": 2, "explanation": "WCAG AA requires a contrast ratio of at least 4.5:1 for normal body text for people with low vision." },
+    { "question": "Why limit yourself to one or two typefaces?", "options": ["To save loading time", "It reads as more intentional and avoids visual noise", "Browsers only support two fonts", "More fonts cause accessibility issues"], "correctIndex": 1, "explanation": "Using one font for headings and one for body creates a consistent visual identity. Mixing many typefaces usually looks cluttered." }
+  ],
+  "design-2": [
+    { "question": "What is a low-fidelity wireframe?", "options": ["A finished pixel-perfect design", "A rough sketch showing layout structure without visual polish", "An interactive prototype", "A style guide"], "correctIndex": 1, "explanation": "Low-fidelity wireframes use boxes and lines to test layout ideas cheaply before any visual design work begins." },
+    { "question": "Why wireframe before designing visuals?", "options": ["Wireframes are required by law", "It is cheaper to change layout than a polished design", "Clients prefer wireframes", "Wireframes auto-generate code"], "correctIndex": 1, "explanation": "It is far faster and cheaper to rethink a five-minute sketch than to redo a fully designed screen." },
+    { "question": "Which of these should you block out in a wireframe?", "options": ["Exact font sizes", "Final colour palette", "Navigation, primary content area, and calls to action", "Animation timings"], "correctIndex": 2, "explanation": "Wireframes define structure: navigation, main content, and CTAs — not visual details." }
+  ],
+  "design-3": [
+    { "question": "When should you use a high-fidelity prototype?", "options": ["At the very start of a project", "When testing rough layout ideas", "When testing visual details and near-final interactions", "Before doing any research"], "correctIndex": 2, "explanation": "High fidelity is needed when the question being tested is about visual design or fine interaction details." },
+    { "question": "What does linking prototype screens test that static mockups cannot?", "options": ["Colour choices", "Typography", "Flow and navigation between screens", "Loading speed"], "correctIndex": 2, "explanation": "Clickable links surface problems like confusing navigation or dead ends that are invisible in static images." },
+    { "question": "What should a prototype test task look like?", "options": ["Look around and tell me what you think", "Find and book a table for two", "Do you like the design?", "What colour would you prefer?"], "correctIndex": 1, "explanation": "Tasks should be specific and realistic so participants behave naturally. Open-ended exploration rarely reveals usability problems." }
+  ],
+  "design-4": [
+    { "question": "How many users does Jakob Nielsen suggest for usability testing?", "options": ["1-2", "~5", "20-30", "100+"], "correctIndex": 1, "explanation": "Nielsen's research shows about 5 users uncover most major usability problems. More users yield diminishing returns." },
+    { "question": "What is the think-aloud protocol?", "options": ["Reading the interface aloud", "Participants narrate their thoughts while completing a task", "The facilitator explains the interface", "Writing feedback after the session"], "correctIndex": 1, "explanation": "Think-aloud captures confusion in the moment — participants say what they are thinking as they work." },
+    { "question": "Which behaviour is a usability signal worth noting?", "options": ["The user completes the task quickly", "The user hesitates and backtracks", "The user says they like the design", "The user opens the app"], "correctIndex": 1, "explanation": "Hesitation, backtracking, and re-reading are signals of confusion even when the user eventually succeeds." }
+  ],
+  "marketing-0": [
+    { "question": "Which stage of the funnel does a search ad typically target?", "options": ["Awareness", "Consideration", "Decision", "All equally"], "correctIndex": 2, "explanation": "Search ads reach people actively searching for a solution — they are usually close to a decision." },
+    { "question": "What content works best at the consideration stage?", "options": ["Broad social campaigns", "Comparison guides, reviews, and case studies", "Checkout page copy", "Brand logo design"], "correctIndex": 1, "explanation": "At consideration, people are comparing options — detailed content like comparisons and case studies helps them evaluate." },
+    { "question": "What is the marketing funnel's final stage?", "options": ["Awareness", "Consideration", "Decision", "Retention"], "correctIndex": 2, "explanation": "The classic funnel ends at Decision — the moment a prospect converts to a customer." }
+  ],
+  "marketing-1": [
+    { "question": "What does SEO stand for?", "options": ["Search Engine Operation", "Search Engine Optimisation", "Site Engagement Overview", "Social Engagement Output"], "correctIndex": 1, "explanation": "SEO (Search Engine Optimisation) is the practice of improving a page's visibility in organic search results." },
+    { "question": "Where should your target keyword appear for best SEO impact?", "options": ["Only in the URL", "In the page title, first heading, and naturally in the content", "Only in the meta description", "In hidden text"], "correctIndex": 1, "explanation": "Keyword placement in the title tag, H1, and naturally throughout the content signals relevance to search engines." },
+    { "question": "What are backlinks?", "options": ["Internal navigation links", "Links from other websites pointing to your page", "Broken links on your site", "CSS anchor styles"], "correctIndex": 1, "explanation": "Backlinks from other sites are a major ranking signal — they indicate that your content is trustworthy and relevant." }
+  ],
+  "marketing-2": [
+    { "question": "What is an engagement rate on social media?", "options": ["Number of followers", "Percentage of viewers who interact with content", "Number of posts per week", "Ad spend per platform"], "correctIndex": 1, "explanation": "Engagement rate measures interactions relative to reach or followers — a better quality signal than follower count alone." },
+    { "question": "Why is posting consistency important on social media?", "options": ["Algorithms penalise irregular posting", "It increases ad costs", "Audiences expect regular content and platforms reward active accounts", "It has no real effect"], "correctIndex": 2, "explanation": "Consistent posting builds audience expectations and gets rewarded by algorithms that favour active creators." },
+    { "question": "What does 'organic reach' mean?", "options": ["Reach from paid ads", "Reach from influencer partnerships", "The number of people who see content without paid promotion", "Reach on eco-friendly platforms"], "correctIndex": 2, "explanation": "Organic reach is the audience you reach without paying — through followers, shares, and algorithm recommendations." }
+  ],
+  "marketing-3": [
+    { "question": "What is a good email open rate benchmark for most industries?", "options": ["1-5%", "15-25%", "50-60%", "80-90%"], "correctIndex": 1, "explanation": "Industry average open rates typically fall between 15-25%. Above 25% is generally considered strong." },
+    { "question": "What is list segmentation in email marketing?", "options": ["Deleting inactive subscribers", "Dividing your list to send more relevant messages to subgroups", "Importing contacts from social media", "Scheduling emails in advance"], "correctIndex": 1, "explanation": "Segmentation splits your audience so you can send targeted, relevant emails that perform better." },
+    { "question": "What does A/B testing an email subject line mean?", "options": ["Sending the same email twice", "Testing two different subject lines to see which gets more opens", "Testing email on two devices", "Using two different email providers"], "correctIndex": 1, "explanation": "A/B testing sends version A to half your list and version B to the other, then measures which performs better." }
+  ],
+  "marketing-4": [
+    { "question": "What does CTR stand for?", "options": ["Click-Through Rate", "Customer Total Revenue", "Content Tracking Record", "Campaign Target Reach"], "correctIndex": 0, "explanation": "CTR (Click-Through Rate) is the percentage of people who clicked a link out of those who saw it." },
+    { "question": "What is a conversion in digital marketing?", "options": ["Changing your brand colours", "A visitor completing a desired action like signing up or buying", "A social media follower", "A page view"], "correctIndex": 1, "explanation": "A conversion is any desired action — a purchase, sign-up, download, or form submission." },
+    { "question": "What does bounce rate measure?", "options": ["Email unsubscribe rate", "Percentage of visitors who leave after viewing only one page", "The number of broken links", "Ad cost per click"], "correctIndex": 1, "explanation": "Bounce rate shows sessions where users left without interacting further — high bounce rate can indicate a mismatch between ad intent and page content." }
+  ]
+}

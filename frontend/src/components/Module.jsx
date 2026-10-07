@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import { getModulePdfUrl, adminEditModule, adminDeleteModule, adminUploadPdf } from "../api";
 import { useNote } from "../useNotes";
 import { useLastSeen, getLastSeenLabel } from "../useLastSeen";
+import Quiz       from "./Quiz";
 import QuizEditor from "./QuizEditor";
 
 function NotepadIcon() {
@@ -51,6 +52,7 @@ export default function Module({ courseSlug, index, module, done, onToggle, isAd
   const [open,       setOpen]       = useState(false);
   const [showPdf,    setShowPdf]    = useState(false);
   const [showNote,   setShowNote]   = useState(false);
+  const [showQuiz,   setShowQuiz]   = useState(false);
   const [editing,    setEditing]    = useState(false);
   const [deleting,   setDeleting]   = useState(false);
   const [uploading,  setUploading]  = useState(false);
@@ -189,9 +191,18 @@ export default function Module({ courseSlug, index, module, done, onToggle, isAd
                     Download
                   </a>
 
-
-
-                  {/* Mark complete — student only */}
+                  {/* Take quiz — student only */}
+                  {!isAdmin && (
+                    <button onClick={e => { e.stopPropagation(); setShowQuiz(s => !s); }}
+                      className="px-3.5 py-1.5 rounded-full text-xs font-medium border border-forest/50 text-forestDeep hover:bg-forest hover:text-white transition inline-flex items-center gap-1.5">
+                      <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+                        <circle cx="8" cy="8" r="6.5" stroke="currentColor" strokeWidth="1.3"/>
+                        <path d="M6.5 6.5C6.5 5.67 7.17 5 8 5s1.5.67 1.5 1.5c0 1-1.5 1.5-1.5 2.5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
+                        <circle cx="8" cy="11" r=".6" fill="currentColor"/>
+                      </svg>
+                      {showQuiz ? "Hide quiz" : "Take quiz"}
+                    </button>
+                  )}
                   {!isAdmin && (
                     <button onClick={e => { e.stopPropagation(); onToggle(); }}
                       className={
@@ -224,6 +235,11 @@ export default function Module({ courseSlug, index, module, done, onToggle, isAd
                   <div className="mt-4 rounded-lg overflow-hidden border border-line bg-white" style={{ height: "70vh" }}>
                     <iframe src={pdfUrl} title={`${module.title} reading PDF`} className="w-full h-full" style={{ border: "none" }}/>
                   </div>
+                )}
+
+                {/* Quiz — student */}
+                {!isAdmin && showQuiz && (
+                  <Quiz courseSlug={courseSlug} moduleIndex={index} onPassed={() => {}} />
                 )}
 
                 {/* Quiz editor — admin */}
