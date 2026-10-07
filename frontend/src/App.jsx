@@ -3,6 +3,7 @@ import LoginScreen   from "./components/LoginScreen";
 import CourseCatalog from "./components/CourseCatalog";
 import CourseDetail  from "./components/CourseDetail";
 import { getStudentId, fetchCourses, fetchProgress, toggleModule } from "./api";
+import { exportNotesAsPdf } from "./exportNotes";
 
 export default function App() {
   // ── Dark mode ───────────────────────────────────────────────────────────────
@@ -129,6 +130,22 @@ export default function App() {
                 </svg>
               )}
             </button>
+
+            {/* Export notes — student only */}
+            {!isAdmin && (
+              <button
+                onClick={() => exportNotesAsPdf(studentId, courses)}
+                aria-label="Export notes as PDF"
+                title="Export my notes as PDF"
+                className="w-8 h-8 rounded-full border border-line flex items-center justify-center text-muted hover:text-amber hover:border-amber transition"
+              >
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                  <path d="M3 1.5h6l4 4V14a.5.5 0 0 1-.5.5h-9A.5.5 0 0 1 3 14V2a.5.5 0 0 1 .5-.5Z" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round"/>
+                  <path d="M9 1.5V5a.5.5 0 0 0 .5.5H13" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round"/>
+                  <path d="M6 10h4M8 8v4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
+                </svg>
+              </button>
+            )}
 
             <button
               onClick={handleLogout}

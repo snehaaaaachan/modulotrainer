@@ -1,8 +1,6 @@
 const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000/api";
 
 // ── Student identity ──────────────────────────────────────────────────────────
-// A persistent random ID stored in localStorage. Swap for a real user ID once
-// proper auth exists.
 export function getStudentId() {
   let id = localStorage.getItem("modulotrainer_student_id");
   if (!id) {
@@ -45,50 +43,49 @@ export async function toggleModule(studentId, courseSlug, moduleIndex) {
   return res.json();
 }
 
-// ── Admin API (requires x-role: admin header) ─────────────────────────────────
-const adminHeaders = {
-  "Content-Type": "application/json",
-  "x-role": "admin"
-};
+// ── Quiz API ──────────────────────────────────────────────────────────────────
+export async function fetchQuiz(courseSlug, moduleIndex) {
+  const res = await fetch(`${API_URL}/courses/${courseSlug}/modules/${moduleIndex}/quiz`);
+  if (!res.ok) throw new Error("Failed to load quiz");
+  return res.json(); // [{id, question, options, explanation}]
+}
+
+export async function submitQuiz(courseSlug, moduleIndex, answers) {
+  const res = await fetch(`${API_URL}/courses/${courseSlug}/modules/${moduleIndex}/quiz/check`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ answers })
+  });
+  if (!res.ok) throw new Error("Failed to submit quiz");
+  return res.json(); // {score, total, passed, results}
+}
+
+// ── Admin API ─────────────────────────────────────────────────────────────────
+const adminHeaders = { "Content-Type": "application/json", "x-role": "admin" };
 
 export async function adminCreateCourse(data) {
-  const res = await fetch(`${API_URL}/courses`, {
-    method: "POST",
-    headers: adminHeaders,
-    body: JSON.stringify(data)
-  });
+  const res = await fetch(`${API_URL}/courses`, { method: "POST", headers: adminHeaders, body: JSON.stringify(data) });
   const json = await res.json();
   if (!res.ok) throw new Error(json.error || "Failed to create course");
   return json;
 }
 
 export async function adminAddModule(courseSlug, data) {
-  const res = await fetch(`${API_URL}/courses/${courseSlug}/modules`, {
-    method: "POST",
-    headers: adminHeaders,
-    body: JSON.stringify(data)
-  });
+  const res = await fetch(`${API_URL}/courses/${courseSlug}/modules`, { method: "POST", headers: adminHeaders, body: JSON.stringify(data) });
   const json = await res.json();
   if (!res.ok) throw new Error(json.error || "Failed to add module");
   return json;
 }
 
 export async function adminEditModule(courseSlug, moduleIndex, data) {
-  const res = await fetch(`${API_URL}/courses/${courseSlug}/modules/${moduleIndex}`, {
-    method: "PUT",
-    headers: adminHeaders,
-    body: JSON.stringify(data)
-  });
+  const res = await fetch(`${API_URL}/courses/${courseSlug}/modules/${moduleIndex}`, { method: "PUT", headers: adminHeaders, body: JSON.stringify(data) });
   const json = await res.json();
   if (!res.ok) throw new Error(json.error || "Failed to edit module");
   return json;
 }
 
 export async function adminDeleteModule(courseSlug, moduleIndex) {
-  const res = await fetch(`${API_URL}/courses/${courseSlug}/modules/${moduleIndex}`, {
-    method: "DELETE",
-    headers: adminHeaders
-  });
+  const res = await fetch(`${API_URL}/courses/${courseSlug}/modules/${moduleIndex}`, { method: "DELETE", headers: adminHeaders });
   const json = await res.json();
   if (!res.ok) throw new Error(json.error || "Failed to delete module");
   return json;
@@ -97,13 +94,35 @@ export async function adminDeleteModule(courseSlug, moduleIndex) {
 export async function adminUploadPdf(courseSlug, moduleIndex, file) {
   const formData = new FormData();
   formData.append("pdf", file);
-  // Note: do NOT set Content-Type header — browser sets it with boundary automatically
-  const res = await fetch(`${API_URL}/courses/${courseSlug}/modules/${moduleIndex}/pdf`, {
-    method: "POST",
-    headers: { "x-role": "admin" },
-    body: formData
-  });
+  const res = await fetch(`${API_URL}/courses/${courseSlug}/modules/${moduleIndex}/pdf`, { method: "POST", headers: { "x-role": "admin" }, body: formData });
   const json = await res.json();
   if (!res.ok) throw new Error(json.error || "Failed to upload PDF");
+  return json;
+}
+
+export async function adminFetchQuiz(courseSlug, moduleIndex) {
+  const res = await fetch(`${API_URL}/courses/${courseSlug}/modules/${moduleIndex}/quiz/admin`, { headers: { "x-role": "admin" } });
+  if (!res.ok) throw new Error("Failed to load quiz");
+  return res.json(); // includes correctIndex
+}
+
+export async function adminAddQuestion(courseSlug, moduleIndex, data) {
+  const res = await fetch(`${API_URL}/courses/${courseSlug}/modules/${moduleIndex}/quiz`, { method: "POST", headers: adminHeaders, body: JSON.stringify(data) });
+  const json = await res.json();
+  if (!res.ok) throw new Error(json.error || "Failed to add question");
+  return json;
+}
+
+export async function adminEditQuestion(courseSlug, moduleIndex, qid, data) {
+  const res = await fetch(`${API_URL}/courses/${courseSlug}/modules/${moduleIndex}/quiz/${qid}`, { method: "PUT", headers: adminHeaders, body: JSON.stringify(data) });
+  const json = await res.json();
+  if (!res.ok) throw new Error(json.error || "Failed to edit question");
+  return json;
+}
+
+export async function adminDeleteQuestion(courseSlug, moduleIndex, qid) {
+  const res = await fetch(`${API_URL}/courses/${courseSlug}/modules/${moduleIndex}/quiz/${qid}`, { method: "DELETE", headers: adminHeaders });
+  const json = await res.json();
+  if (!res.ok) throw new Error(json.error || "Failed to delete question");
   return json;
 }
